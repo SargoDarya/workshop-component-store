@@ -4,36 +4,39 @@ import { ListToDosComponent } from './list-to-dos/list-to-dos.component';
 import { ToDo } from './types';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AppComponentStore } from './app.component.store';
+import { provideComponentStore } from '@ngrx/component-store';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [CommonModule, CreateToDoComponent, ListToDosComponent]
+  imports: [CommonModule, CreateToDoComponent, ListToDosComponent],
+  providers: [ provideComponentStore(AppComponentStore) ]
 })
 export class AppComponent {
   // Replace with proper selectors
-  public toDos$ = new BehaviorSubject<ToDo[]>([ { title: 'A ToDo not yet done', done: false } ]);
-  public doneToDos$ = new BehaviorSubject<ToDo[]>([ { title: 'A ToDo that is done', done: true } ]);
+  public openToDos$ = this.store.openToDos$;
+  public doneToDos$ = this.store.doneToDos$;
+
+  public constructor(
+    private readonly store: AppComponentStore
+  ) {}
 
   public createToDo(title: string): void {
-    // TODO: Add Store calls
-    console.log('Create ToDo', title);
+    this.store.addToDo(title);
   }
 
   public toggleToDo(toDo: ToDo): void {
-    // TODO: Add Store calls
-    console.log('Toggle ToDo', toDo);
+    this.store.toggleToDo(toDo);
   }
 
   public deleteToDo(toDo: ToDo): void {
-    // TODO: Add Store calls
-    console.log('Delete ToDo', toDo);
+    this.store.deleteToDo(toDo);
   }
 
   public deleteDoneToDos(): void {
-    // TODO: Add Store calls
-    console.log('Delete done ToDos');
+    this.store.deleteDoneToDos();
   }
 
 }

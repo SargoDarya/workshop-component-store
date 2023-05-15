@@ -5,7 +5,7 @@
 <!-- List for still open todos -->
 <h2>Open To-Dos</h2>
 <app-list-to-dos
-  [toDos]="toDos$ | async"
+  [toDos]="openToDos$ | async"
   (toggleToDo)="toggleToDo($event)"
   (deleteToDo)="deleteToDo($event)">
   <p>All done for now!</p>
@@ -13,6 +13,7 @@
 
 <!-- List for done todos -->
 <h2>Done To-Dos</h2>
+<button (click)="deleteDoneToDos()">Delete all done</button>
 <app-list-to-dos
   [toDos]="doneToDos$ | async"
   (toggleToDo)="toggleToDo($event)"
